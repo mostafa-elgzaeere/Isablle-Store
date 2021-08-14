@@ -1,0 +1,81 @@
+
+{% extends 'base.html' %}
+    
+{% block title %}
+    {{block.super}}/Cart Details
+
+{% endblock title %}
+ 
+ 
+ 
+ {% block about %}
+        {{block.super}}
+ {% endblock about %}
+ 
+
+ {% block content %}
+     
+
+<div class="container jumbotron" style="min-height: 500px;">
+
+{% if cart %} <h2 class="text-muted text-center">Your Cart Have ...</h2>
+{% else %}    <h2 class="text-muted text-center">Your Is Empty  ...</h2>
+{% endif %}
+    
+
+
+
+ {% for item in cart %}
+          {% with item.product as product %}
+
+
+    <div class="row d-flex mt-5" style="justify-content: space-between; border-bottom: 1px solid black;">
+        <img src="{{product.image.url}}" width="13%" alt="">
+        <div class="name">{{product.name}}</div>
+        <div class="quantity">
+                  <form action="{% url "add_in_cart" product.id %}" method="post">
+                      {{ item.update_quantity_form.quantity }}
+                      <input type="submit" value="Update" id="update">
+                      {% csrf_token %}
+                  </form>
+        </div>
+        <div class="price">Unit price {{product.price}} $  </div>
+        <div class="product_total_price">Total  {{item.total_price}} $  </div>
+
+
+
+             <form action="{% url 'remove_from_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                  {{form.label_tag}}
+                  <input type="submit" value="Remove">
+             </form> 
+        
+
+        </div>
+
+      {% endwith %}
+
+ {% endfor %}   
+
+
+    <div class="finish d-flex mt-5" style="justify-content: space-between;">
+        <div class="total_price">
+            <h3>Total price :{{cart.total_price}} $ </h3>
+        </div>
+
+        <div class="exit">
+            <a href="{% url 'home' %}" class="btn btn-primary">Contienu Shopping </a>
+            <a href="{% url 'create_order' %} " class="btn btn-success">Check Out </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <!--end products-->
+
+ {% endblock content %}   
+
+
+ 

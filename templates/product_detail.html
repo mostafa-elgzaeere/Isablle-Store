@@ -1,0 +1,94 @@
+
+{% extends 'base.html' %}
+    
+{% block title %}
+  
+    {{block.super}}/Home/{{product.title}}
+
+
+{% endblock title %}
+ 
+ 
+{% block content %}
+
+ <!--start product_detail-->
+
+<div class="container mt-5 d-flex"  style="flex-wrap: wrap; justify-content: space-between;">
+  <div class="details" style="flex:50">
+    <h2 style="color: #ccc5c5;">{{product.title}}</h2>
+    <hr>   
+    <p><span style="color: #ccc5c5;">Reviews Count : </span>   30 review</p>
+    <hr>
+    <h4 style="font-size: 12px;">{{product.description}} </h4>
+    <hr>
+    <h3><span style="color: #ccc5c5;">price : </span> {{product.price}}$</h3>
+    <hr>
+    <form action="{% url 'add_in_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                {{form}}
+                <input type="submit" value="Add To Cart" id="product_detil_add" class="btn btn-primary text-white" >
+    </form>
+    
+    </div>
+
+  <div class="image">
+    <img src="{{ product.image.url }}" class="product_detail_image" width="20%" style="position: absolute;right: 3%; "  alt="">
+  </div>
+</div>
+
+ <!--end product_detail-->
+
+
+
+
+ <!-- start reviews-->
+
+<div class="reviews mt-4 ml-2">
+    <h4>Rev<span style="color:#E7325E;">iews</span> </h4>
+    {% if comments %}
+        {% for i in comments  %}
+    
+    
+      <div class="card mt-2">
+        <div class="card-header">
+          Review By : {{i.writer}}
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{i.content}}</p>
+        </div>
+      </div>
+
+    {% endfor %}
+
+    {% else %}
+    <h5> This Product Haven`t any Review  </h5>
+    {% endif %}
+
+
+
+
+
+</div>
+
+ <!-- end  reviews-->
+
+
+
+<!-- start add review-->
+<div class="add_review mt-4 w-50 ml-2">
+  <h5 style="color: white;">Share<span style="color:#E7325E;"> Your</span>  Review</h5>
+  <form method="post">
+  {%csrf_token%}
+    <div class="form-group">
+      <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="write your review" required></textarea>
+    </div>
+    <div class="form-group">
+      <input type="submit" class="btn btn-primary" value="Share">
+    </div>
+    </form>
+
+</div>
+<!-- end add review -->
+
+
+{% endblock %}

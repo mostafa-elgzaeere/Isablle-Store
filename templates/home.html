@@ -1,0 +1,113 @@
+
+{% extends 'base.html' %}
+    
+{% block title %}
+    {% if current_categorey %}
+    {{block.super}}/Home/{{current_categorey.name}}
+    {% else %}
+    {{block.super}}/Home/All
+    {% endif %}
+
+{% endblock title %}
+ 
+ 
+ 
+ {% block about %}
+        {{block.super}}
+ {% endblock about %}
+ 
+
+ {% block content %}
+     
+<!--start about-->
+<div class="container mt-5 about_us-parent">
+    
+        <div>
+        <h2>About Us</h2>
+        <div class="about_us" id="about_us">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa ullam libero in. Vel est quos nisi aut omnis quam animi delectus optio eum, blanditiis nostrum voluptatum laborum? Illo, voluptatem veniam?
+        </div>
+        
+    <img src="../static/images/lady-shopping.png" style="transform: translate(100%); z-index: 999;"  width="50%"/>
+  </div>
+</div>
+
+<!--end about-->
+    <!--start categories-->
+    <div class="container text-center mt-5">
+        <h2>OUR CATEGORIES</h2>
+        <div class="container">
+            <div class="categories">
+            <div class="categorie mr-2"> 
+                    <h2>ALL</h2>  
+                   <a href="{% url 'home' %}"class="btn text-white" style="background-color: rgb(236, 19, 110);">Products</a>
+                </div>
+                <div class="w-100"> </div>
+              
+              {% for i in categories  %}
+                    <div class="categorie mr-2"> 
+                    <h2>{{i.name}}</h2>
+                    <a href="{% url "name_categorey" i.name  %}" class="btn text-white" style="background-color: rgb(236, 19, 110);">Products</a>
+                </div>
+              {% endfor %}
+
+    <!--end categories-->
+
+
+    <!--start products-->
+    <div class="container text-center mt-5 mb-5">
+            <h3 style="color:rgba(2, 39, 63, 0.877);">Featuerd Products</h3>
+            <div class="container">
+                <div class="products">
+
+
+        {% for i in products  %}
+              
+            <div class="product mt-5">
+                <div class="product mr-2"> 
+                <a href="{% url 'product_choice' i.id %}"> 
+                        <img src="{{ i.image.url }}"  width="100%"height="60%">
+                </a>
+                       <p>{{i.title}} </p>
+                       <p>{{i.price}}$</p>
+
+                        <form action="{% url 'add_in_cart' i.id %}" method="POST" id="in_home">
+                                        {% csrf_token %}
+                                        {{form}}
+                                        <input type="submit" value="Add To Cart">
+                        </form> 
+
+                        
+                 </div>
+            </div>
+
+        {% endfor %}      
+
+        </div> 
+
+
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a class="btn btn-primary" href="?page={{ products.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            <span style="color: rgb(243, 243, 243);">Page</span> <span style="color: crimson;"> {{ products.number }}</span> <span style="color: rgb(243, 243, 243);">of</span>   <span style="color: crimson;">{{ products.paginator.num_pages }}</span>
+        </span>
+
+        {% if products.has_next %}
+            <a  class="btn btn-primary" href="?page={{ products.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+
+    <!--end products-->
+
+ {% endblock content %}   
+
+
+ 

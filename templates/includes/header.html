@@ -1,0 +1,11 @@
+
+
+    <!--Start nav -->    
+    <nav class="navbar navbar-light  justify-content-between">
+        <a href="{% url 'home' %}" class="navbar-brand ml-1" style=" color:white; font-size:25px"> <span style="color: rgb(236, 19, 110);">Isabel</span> Store</a>
+        <div>
+                    <a href="{% url 'cart_detail' %}" style="color: black;"><i class="fa fa-2x fa-cart-plus mr-2" aria-hidden="true"></i></a>
+                    <span style="color: rgb(236, 19, 110); font-size: 20px;">{{cart|length}}</span>
+        </div>
+      </nav>
+    <!--end nav -->
